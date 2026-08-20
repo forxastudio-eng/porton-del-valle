@@ -1,0 +1,644 @@
+{
+  "lots": [
+    {
+      "code": "A1",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 73.17,
+      "cy": 18.4
+    },
+    {
+      "code": "A10",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 66.83,
+      "cy": 28.65
+    },
+    {
+      "code": "A11",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 61.87,
+      "cy": 15.99
+    },
+    {
+      "code": "A113",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 56.93,
+      "cy": 15.11
+    },
+    {
+      "code": "A116",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 68.59,
+      "cy": 41.95
+    },
+    {
+      "code": "A119",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 62.99,
+      "cy": 39.76
+    },
+    {
+      "code": "A133",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 72.69,
+      "cy": 34.71
+    },
+    {
+      "code": "A134",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 73.85,
+      "cy": 40.44
+    },
+    {
+      "code": "A135",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 74.79,
+      "cy": 46.99
+    },
+    {
+      "code": "A136",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 64.59,
+      "cy": 54.6
+    },
+    {
+      "code": "A139",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 64.54,
+      "cy": 31.67
+    },
+    {
+      "code": "A14",
+      "status": "disponible",
+      "area": 2546.52,
+      "price": 76395.6,
+      "cx": 64.11,
+      "cy": 35.0
+    },
+    {
+      "code": "A140",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 52.22,
+      "cy": 28.4
+    },
+    {
+      "code": "A141",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 49.46,
+      "cy": 14.99
+    },
+    {
+      "code": "A18",
+      "status": "disponible",
+      "area": 2597.51,
+      "price": 77925.3,
+      "cx": 60.87,
+      "cy": 35.66
+    },
+    {
+      "code": "A2",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 58.77,
+      "cy": 20.88
+    },
+    {
+      "code": "A20",
+      "status": "disponible",
+      "area": 2570.75,
+      "price": 77122.5,
+      "cx": 64.82,
+      "cy": 43.6
+    },
+    {
+      "code": "A21",
+      "status": "disponible",
+      "area": 2394.49,
+      "price": 67045.72,
+      "cx": 66.62,
+      "cy": 46.99
+    },
+    {
+      "code": "A22",
+      "status": "disponible",
+      "area": 2572.83,
+      "price": 77184.9,
+      "cx": 58.16,
+      "cy": 37.05
+    },
+    {
+      "code": "A23",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 58.82,
+      "cy": 41.19
+    },
+    {
+      "code": "A24",
+      "status": "disponible",
+      "area": 2506.2,
+      "price": 75186.0,
+      "cx": 60.51,
+      "cy": 44.84
+    },
+    {
+      "code": "A25",
+      "status": "disponible",
+      "area": 2344.39,
+      "price": 65642.92,
+      "cx": 63.79,
+      "cy": 48.71
+    },
+    {
+      "code": "A27",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 55.05,
+      "cy": 41.95
+    },
+    {
+      "code": "A28",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 57.11,
+      "cy": 45.82
+    },
+    {
+      "code": "A29",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 60.48,
+      "cy": 48.94
+    },
+    {
+      "code": "A3",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 73.21,
+      "cy": 24.32
+    },
+    {
+      "code": "A30",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 55.95,
+      "cy": 50.71
+    },
+    {
+      "code": "A31",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 59.6,
+      "cy": 52.36
+    },
+    {
+      "code": "A32",
+      "status": "disponible",
+      "area": 2501.91,
+      "price": 75057.3,
+      "cx": 54.23,
+      "cy": 53.02
+    },
+    {
+      "code": "A34",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 47.32,
+      "cy": 55.41
+    },
+    {
+      "code": "A35",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 46.86,
+      "cy": 58.24
+    },
+    {
+      "code": "A353",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 51.38,
+      "cy": 54.49
+    },
+    {
+      "code": "A36",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 47.8,
+      "cy": 51.2
+    },
+    {
+      "code": "A39",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 36.2,
+      "cy": 53.8
+    },
+    {
+      "code": "A4",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 74.36,
+      "cy": 27.64
+    },
+    {
+      "code": "A40",
+      "status": "disponible",
+      "area": 2687.78,
+      "price": 80633.4,
+      "cx": 32.16,
+      "cy": 53.8
+    },
+    {
+      "code": "A41",
+      "status": "disponible",
+      "area": 2626.29,
+      "price": 78788.7,
+      "cx": 52.74,
+      "cy": 34.26
+    },
+    {
+      "code": "A42",
+      "status": "disponible",
+      "area": 2889.09,
+      "price": 80894.52,
+      "cx": 50.61,
+      "cy": 36.52
+    },
+    {
+      "code": "A43",
+      "status": "disponible",
+      "area": 3302.04,
+      "price": 92457.12,
+      "cx": 48.82,
+      "cy": 41.69
+    },
+    {
+      "code": "A44",
+      "status": "disponible",
+      "area": 2965.35,
+      "price": 88960.5,
+      "cx": 49.53,
+      "cy": 44.56
+    },
+    {
+      "code": "A45",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 50.61,
+      "cy": 46.99
+    },
+    {
+      "code": "A46",
+      "status": "disponible",
+      "area": 2898.95,
+      "price": 86968.5,
+      "cx": 43.12,
+      "cy": 41.45
+    },
+    {
+      "code": "A47",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 42.36,
+      "cy": 44.03
+    },
+    {
+      "code": "A49",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 39.21,
+      "cy": 41.22
+    },
+    {
+      "code": "A5",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 74.54,
+      "cy": 31.14
+    },
+    {
+      "code": "A50",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 41.52,
+      "cy": 46.45
+    },
+    {
+      "code": "A51",
+      "status": "disponible",
+      "area": 2507.46,
+      "price": 70208.88,
+      "cx": 33.05,
+      "cy": 41.04
+    },
+    {
+      "code": "A52",
+      "status": "disponible",
+      "area": 2601.77,
+      "price": 65044.25,
+      "cx": 33.03,
+      "cy": 43.34
+    },
+    {
+      "code": "A535",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 33.19,
+      "cy": 45.57
+    },
+    {
+      "code": "A55",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 34.67,
+      "cy": 49.72
+    },
+    {
+      "code": "A554",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 34.19,
+      "cy": 47.54
+    },
+    {
+      "code": "A56",
+      "status": "disponible",
+      "area": 2759.2,
+      "price": 77257.6,
+      "cx": 26.99,
+      "cy": 43.96
+    },
+    {
+      "code": "A57",
+      "status": "disponible",
+      "area": 2507.36,
+      "price": 70206.08,
+      "cx": 27.76,
+      "cy": 47.26
+    },
+    {
+      "code": "A58",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 23.01,
+      "cy": 46.33
+    },
+    {
+      "code": "A59",
+      "status": "disponible",
+      "area": 2684.81,
+      "price": 75174.68,
+      "cx": 51.9,
+      "cy": 17.96
+    },
+    {
+      "code": "A6",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 67.33,
+      "cy": 16.96
+    },
+    {
+      "code": "A60",
+      "status": "disponible",
+      "area": 2735.69,
+      "price": 82070.7,
+      "cx": 51.33,
+      "cy": 21.17
+    },
+    {
+      "code": "A61",
+      "status": "disponible",
+      "area": 3116.3,
+      "price": 87256.4,
+      "cx": 47.24,
+      "cy": 19.14
+    },
+    {
+      "code": "A62",
+      "status": "disponible",
+      "area": 2887.37,
+      "price": 80846.36,
+      "cx": 46.79,
+      "cy": 22.74
+    },
+    {
+      "code": "A63",
+      "status": "disponible",
+      "area": 4843.98,
+      "price": 135631.44,
+      "cx": 42.36,
+      "cy": 22.71
+    },
+    {
+      "code": "A64",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 38.1,
+      "cy": 24.22
+    },
+    {
+      "code": "A65",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 31.28,
+      "cy": 25.26
+    },
+    {
+      "code": "A7",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 69.22,
+      "cy": 45.84
+    },
+    {
+      "code": "A71",
+      "status": "disponible",
+      "area": 3711.19,
+      "price": 92779.75,
+      "cx": 56.23,
+      "cy": 23.55
+    },
+    {
+      "code": "A72",
+      "status": "disponible",
+      "area": 2797.73,
+      "price": 78336.44,
+      "cx": 58.04,
+      "cy": 26.07
+    },
+    {
+      "code": "A73",
+      "status": "disponible",
+      "area": 3102.35,
+      "price": 93070.5,
+      "cx": 51.24,
+      "cy": 31.91
+    },
+    {
+      "code": "A74",
+      "status": "disponible",
+      "area": 3266.22,
+      "price": 81655.5,
+      "cx": 43.87,
+      "cy": 29.22
+    },
+    {
+      "code": "A75",
+      "status": "disponible",
+      "area": 3165.37,
+      "price": 94961.1,
+      "cx": 44.95,
+      "cy": 33.27
+    },
+    {
+      "code": "A76",
+      "status": "disponible",
+      "area": 3258.79,
+      "price": 81469.75,
+      "cx": 41.61,
+      "cy": 30.0
+    },
+    {
+      "code": "A77",
+      "status": "disponible",
+      "area": 2862.72,
+      "price": 85881.6,
+      "cx": 40.95,
+      "cy": 35.03
+    },
+    {
+      "code": "A79",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 36.16,
+      "cy": 36.22
+    },
+    {
+      "code": "A8",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 66.07,
+      "cy": 23.56
+    },
+    {
+      "code": "A81",
+      "status": "disponible",
+      "area": 4658.13,
+      "price": 130427.64,
+      "cx": 31.34,
+      "cy": 30.6
+    },
+    {
+      "code": "A83",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 22.35,
+      "cy": 35.72
+    },
+    {
+      "code": "A84",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 28.61,
+      "cy": 38.23
+    },
+    {
+      "code": "A85",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 24.93,
+      "cy": 39.56
+    },
+    {
+      "code": "A86",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 19.32,
+      "cy": 38.62
+    },
+    {
+      "code": "A87",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 22.59,
+      "cy": 41.91
+    },
+    {
+      "code": "A882",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 31.91,
+      "cy": 36.89
+    },
+    {
+      "code": "A9",
+      "status": "no_disponible",
+      "area": null,
+      "price": null,
+      "cx": 66.83,
+      "cy": 26.45
+    }
+  ]
+}
