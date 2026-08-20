@@ -2,41 +2,58 @@ backend:
   name: git-gateway
   branch: main
 
+logo_url: "/img/admin-logo.png"
+
 media_folder: "img"
 public_folder: "/img"
 
 collections:
   - name: "lotes"
-    label: "Lotes — Portón del Valle"
-    files:
-      - name: "lots"
-        label: "Lotes del proyecto"
-        file: "data/lots.json"
-        fields:
-          - name: "lots"
-            label: "Lotes"
-            widget: "list"
-            summary: "{{fields.code}} — {{fields.status}}"
-            fields:
-              - { name: "code", label: "Código del lote", widget: "string", hint: "Ej: A63. Debe ser único." }
-              - name: "status"
-                label: "Estado"
-                widget: "select"
-                default: "disponible"
-                options:
-                  - { label: "Disponible", value: "disponible" }
-                  - { label: "Reservado", value: "reservado" }
-                  - { label: "No disponible", value: "no_disponible" }
-              - { name: "area", label: "Área (m²)", widget: "number", value_type: "float", required: false, hint: "Déjalo vacío si no aplica." }
-              - { name: "price", label: "Precio (USD)", widget: "number", value_type: "float", required: false, hint: "Déjalo vacío si no aplica." }
-              - { name: "cx", label: "Posición en el mapa — horizontal (0 a 100)", widget: "number", value_type: "float", hint: "0 = borde izquierdo del mapa, 100 = borde derecho. Para un lote nuevo, prueba un valor y revisa cómo se ve en el sitio." }
-              - { name: "cy", label: "Posición en el mapa — vertical (0 a 100)", widget: "number", value_type: "float", hint: "0 = arriba del mapa, 100 = abajo." }
+    label: "Lotes"
+    label_singular: "Lote"
+    description: "Un lote por tarjeta. Usa los filtros de arriba para ver solo Disponibles, Reservados o No disponibles, o el buscador para ir directo a un código."
+    folder: "data/lotes"
+    create: true
+    delete: true
+    slug: "{{code}}"
+    identifier_field: "code"
+    summary: "{{code}} — {{status}}"
+    sortable_fields: ["code", "status", "area", "price"]
+    view_groups:
+      - label: "Agrupar por estado"
+        field: status
+    view_filters:
+      - label: "Disponibles"
+        field: status
+        pattern: "disponible"
+      - label: "Reservados"
+        field: status
+        pattern: "reservado"
+      - label: "No disponibles"
+        field: status
+        pattern: "no_disponible"
+    fields:
+      - { name: "code", label: "Código del lote", widget: "string", hint: "Ej: A63. Debe ser único — no puede repetirse en otro lote." }
+      - name: "status"
+        label: "Estado"
+        widget: "select"
+        default: "disponible"
+        options:
+          - { label: "🟢 Disponible", value: "disponible" }
+          - { label: "🟡 Reservado", value: "reservado" }
+          - { label: "🔴 No disponible", value: "no_disponible" }
+      - { name: "area", label: "Área (m²)", widget: "number", value_type: "float", required: false, hint: "Déjalo vacío si no aplica." }
+      - { name: "price", label: "Precio (USD)", widget: "number", value_type: "float", required: false, hint: "Déjalo vacío si no aplica." }
+      - { name: "cx", label: "Posición en el mapa — horizontal (0 a 100)", widget: "number", value_type: "float", hint: "0 = borde izquierdo del mapa, 100 = borde derecho. Para un lote nuevo, prueba un valor y revisa cómo se ve en el sitio." }
+      - { name: "cy", label: "Posición en el mapa — vertical (0 a 100)", widget: "number", value_type: "float", hint: "0 = arriba del mapa, 100 = abajo." }
 
   - name: "contenido"
     label: "Contenido del sitio"
+    description: "Fotos y textos del sitio que no son lotes."
     files:
       - name: "slider"
         label: "Slider de fotos — sección Ubicación"
+        description: "El carrusel automático que aparece bajo 'En el corazón del Valle de Yunguilla'. Arrastra las fotos para cambiar el orden."
         file: "data/slider.json"
         fields:
           - name: "images"
