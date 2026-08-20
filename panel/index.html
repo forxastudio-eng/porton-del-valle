@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Panel — Portón del Valle</title>
+<link rel="icon" href="../img/logo-mark.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<style>
+  :root {
+    --bg-0: #0c0f0a; --bg-1: #12160f; --bg-2: #171c13; --bg-3: #1e2418;
+    --sage-100: #e7ede1; --sage-300: #b9c9ac; --sage-500: #8fa77b; --sage-600: #71875e;
+    --terracotta: #b9683f; --terracotta-soft: #d99a6f;
+    --amber-bg: rgba(196,154,45,0.18); --amber-text: #e0bb5c;
+    --sold-bg: rgba(185,104,63,0.16); --sold-text: #d99a6f;
+    --ok-bg: rgba(143,167,123,0.16); --ok-text: #b9c9ac;
+    --cream: #f4efe2; --cream-dim: #c9c3b1; --stone: #8b9184;
+    --line: rgba(244,239,226,0.1); --line-strong: rgba(244,239,226,0.2);
+    --radius: 8px; --radius-lg: 14px;
+    --ff-display: "Fraunces", serif; --ff-body: "Manrope", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg-0); color: var(--cream); font-family: var(--ff-body); min-height: 100vh; }
+  a { color: inherit; }
+  ::selection { background: var(--sage-500); color: #10150c; }
+
+  /* ---------- Login ---------- */
+  #loginScreen { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
+  .login-card { width: 100%; max-width: 380px; background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 40px 32px; text-align: center; }
+  .login-card img { width: 64px; height: 64px; border-radius: 16px; margin-bottom: 18px; }
+  .login-card h1 { font-family: var(--ff-display); font-style: italic; font-weight: 500; font-size: 1.7rem; margin: 0 0 6px; }
+  .login-card p.sub { color: var(--stone); font-size: 0.88rem; margin: 0 0 26px; }
+  .field { text-align: left; margin-bottom: 16px; }
+  .field label { display: block; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase; color: var(--cream-dim); margin-bottom: 6px; }
+  .field input, .field select, .field textarea {
+    width: 100%; padding: 11px 13px; border-radius: var(--radius); border: 1px solid var(--line-strong);
+    background: var(--bg-1); color: var(--cream); font-family: var(--ff-body); font-size: 0.95rem;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--sage-500); }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: none; border-radius: 100px;
+    padding: 12px 22px; font-family: var(--ff-body); font-weight: 700; font-size: 0.9rem; cursor: pointer; transition: opacity .15s ease, background .15s ease; }
+  .btn:hover { opacity: 0.88; }
+  .btn--primary { background: var(--sage-500); color: #10150c; width: 100%; }
+  .btn--ghost { background: transparent; color: var(--cream-dim); border: 1px solid var(--line-strong); }
+  .btn--sm { padding: 7px 14px; font-size: 0.78rem; }
+  .btn--danger { background: rgba(185,104,63,0.16); color: var(--terracotta-soft); }
+  #loginError { color: var(--terracotta-soft); font-size: 0.85rem; margin-top: 14px; display: none; }
+
+  /* ---------- Shell ---------- */
+  #appShell { display: none; }
+  header.top { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 28px; background: rgba(12,15,10,0.92); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+  .top__brand { display: flex; align-items: center; gap: 12px; }
+  .top__brand img { width: 32px; height: 32px; border-radius: 8px; }
+  .top__brand span { font-family: var(--ff-display); font-style: italic; font-weight: 500; font-size: 1.15rem; }
+  .tabs { display: flex; gap: 6px; padding: 14px 28px 0; }
+  .tab-btn { background: transparent; border: none; color: var(--stone); font-family: var(--ff-body); font-weight: 700;
+    font-size: 0.9rem; padding: 10px 18px; border-radius: 100px 100px 0 0; cursor: pointer; border-bottom: 2px solid transparent; }
+  .tab-btn.is-active { color: var(--cream); border-bottom-color: var(--sage-500); }
+  main { padding: 8px 28px 60px; max-width: 1100px; margin: 0 auto; }
+  .panel-section { display: none; }
+  .panel-section.is-active { display: block; }
+
+  /* ---------- Toolbar ---------- */
+  .toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 22px 0 18px; }
+  .toolbar input[type="search"] { flex: 1; min-width: 160px; }
+  .chip-group { display: flex; gap: 6px; flex-wrap: wrap; }
+  .chip { background: var(--bg-2); border: 1px solid var(--line-strong); color: var(--cream-dim); font-family: var(--ff-body);
+    font-size: 0.8rem; font-weight: 700; padding: 7px 14px; border-radius: 100px; cursor: pointer; }
+  .chip.is-active { background: var(--sage-500); color: #10150c; border-color: var(--sage-500); }
+  .spacer { flex: 1; }
+  #lotCountLabel { color: var(--stone); font-size: 0.82rem; }
+
+  /* ---------- Lot cards ---------- */
+  #lotsList { display: flex; flex-direction: column; gap: 10px; }
+  .lot-card { background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 16px 18px; }
+  .lot-card__head { display: flex; align-items: center; gap: 14px; cursor: pointer; }
+  .lot-card__code { font-family: var(--ff-display); font-style: italic; font-weight: 500; font-size: 1.15rem; color: var(--sage-300); width: 74px; flex: none; }
+  .lot-card__meta { color: var(--stone); font-size: 0.82rem; flex: 1; }
+  .status-pills { display: flex; gap: 6px; }
+  .status-pill { border: 1px solid var(--line-strong); background: transparent; color: var(--stone); font-family: var(--ff-body);
+    font-size: 0.72rem; font-weight: 700; padding: 6px 12px; border-radius: 100px; cursor: pointer; white-space: nowrap; }
+  .status-pill[data-status="disponible"].is-active { background: var(--ok-bg); color: var(--ok-text); border-color: transparent; }
+  .status-pill[data-status="reservado"].is-active { background: var(--amber-bg); color: var(--amber-text); border-color: transparent; }
+  .status-pill[data-status="no_disponible"].is-active { background: var(--sold-bg); color: var(--sold-text); border-color: transparent; }
+  .lot-card__toggle { color: var(--stone); flex: none; transition: transform .15s ease; }
+  .lot-card.is-open .lot-card__toggle { transform: rotate(90deg); }
+  .lot-card__body { display: none; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line); }
+  .lot-card.is-open .lot-card__body { display: grid; }
+  .lot-card__body .field { margin-bottom: 0; }
+  .lot-card__body .full { grid-column: 1 / -1; }
+  .lot-card__actions { grid-column: 1 / -1; display: flex; gap: 10px; justify-content: flex-end; margin-top: 4px; }
+
+  /* ---------- Add lot form ---------- */
+  #addLotForm { background: var(--bg-2); border: 1px dashed var(--line-strong); border-radius: var(--radius-lg); padding: 18px; margin-bottom: 16px; display: none; }
+  #addLotForm.is-open { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+  #addLotForm .full { grid-column: 1 / -1; display: flex; gap: 10px; justify-content: flex-end; }
+
+  /* ---------- Slider photos ---------- */
+  #sliderList { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+  .slide-card { display: flex; align-items: center; gap: 14px; background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 12px 16px; }
+  .slide-card img { width: 84px; height: 60px; object-fit: cover; border-radius: 6px; flex: none; background: var(--bg-1); }
+  .slide-card input[type="text"] { flex: 1; }
+  .slide-card__actions { display: flex; gap: 4px; flex: none; }
+  .icon-btn { background: var(--bg-1); border: 1px solid var(--line-strong); color: var(--cream-dim); width: 34px; height: 34px;
+    border-radius: 8px; cursor: pointer; font-size: 0.95rem; display: flex; align-items: center; justify-content: center; }
+  .icon-btn:hover { border-color: var(--sage-500); color: var(--sage-300); }
+  #uploadRow { margin-top: 18px; display: flex; align-items: center; gap: 12px; }
+
+  #toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--bg-3);
+    border: 1px solid var(--line-strong); color: var(--cream); padding: 12px 20px; border-radius: 100px; font-size: 0.85rem;
+    opacity: 0; transition: opacity .2s ease, transform .2s ease; pointer-events: none; z-index: 20; }
+  #toast.is-visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  @media (max-width: 640px) {
+    header.top, .tabs, main { padding-left: 16px; padding-right: 16px; }
+    .lot-card__body, #addLotForm.is-open { grid-template-columns: 1fr; }
+    .lot-card__head { flex-wrap: wrap; }
+    .status-pills { width: 100%; order: 3; }
+  }
+</style>
+</head>
+<body>
+
+<div id="loginScreen">
+  <div class="login-card">
+    <img src="../img/admin-logo.png" alt="Portón del Valle" />
+    <h1>Panel de administración</h1>
+    <p class="sub">Portón del Valle</p>
+    <form id="loginForm">
+      <div class="field">
+        <label for="loginEmail">Correo</label>
+        <input type="email" id="loginEmail" autocomplete="username" required />
+      </div>
+      <div class="field">
+        <label for="loginPassword">Contraseña</label>
+        <input type="password" id="loginPassword" autocomplete="current-password" required />
+      </div>
+      <button type="submit" class="btn btn--primary" id="loginBtn">Iniciar sesión</button>
+      <p id="loginError"></p>
+    </form>
+  </div>
+</div>
+
+<div id="appShell">
+  <header class="top">
+    <div class="top__brand">
+      <img src="../img/admin-logo.png" alt="" />
+      <span>Panel — Portón del Valle</span>
+    </div>
+    <button class="btn btn--ghost btn--sm" id="logoutBtn">Cerrar sesión</button>
+  </header>
+
+  <div class="tabs">
+    <button class="tab-btn is-active" data-tab="tab-lotes">Lotes</button>
+    <button class="tab-btn" data-tab="tab-fotos">Fotos del slider</button>
+  </div>
+
+  <main>
+    <section class="panel-section is-active" id="tab-lotes">
+      <div class="toolbar">
+        <input type="search" id="lotSearch" placeholder="Buscar por código (ej. A63)" />
+        <div class="chip-group" id="statusFilters">
+          <button class="chip is-active" data-filter="todos">Todos</button>
+          <button class="chip" data-filter="disponible">Disponibles</button>
+          <button class="chip" data-filter="reservado">Reservados</button>
+          <button class="chip" data-filter="no_disponible">No disponibles</button>
+        </div>
+        <div class="spacer"></div>
+        <span id="lotCountLabel"></span>
+        <button class="btn btn--primary btn--sm" id="showAddLotBtn" style="width:auto;">+ Agregar lote</button>
+      </div>
+
+      <form id="addLotForm">
+        <div class="field"><label>Código</label><input type="text" id="newCode" placeholder="Ej. A90" required /></div>
+        <div class="field"><label>Estado</label>
+          <select id="newStatus">
+            <option value="disponible">Disponible</option>
+            <option value="reservado">Reservado</option>
+            <option value="no_disponible">No disponible</option>
+          </select>
+        </div>
+        <div class="field"><label>Área (m²)</label><input type="number" step="0.01" id="newArea" /></div>
+        <div class="field"><label>Precio (USD)</label><input type="number" step="0.01" id="newPrice" /></div>
+        <div class="field"><label>Posición mapa — X (0-100)</label><input type="number" step="0.01" id="newCx" value="50" /></div>
+        <div class="field"><label>Posición mapa — Y (0-100)</label><input type="number" step="0.01" id="newCy" value="50" /></div>
+        <div class="full">
+          <button type="button" class="btn btn--ghost btn--sm" id="cancelAddLot">Cancelar</button>
+          <button type="submit" class="btn btn--primary btn--sm" style="width:auto;">Crear lote</button>
+        </div>
+      </form>
+
+      <div id="lotsList"></div>
+    </section>
+
+    <section class="panel-section" id="tab-fotos">
+      <p class="sub" style="color:var(--stone); font-size:0.88rem; margin: 20px 0 0;">Estas son las fotos del carrusel automático en la sección "Ubicación" del sitio. Arrastra las flechas para cambiar el orden, o sube una foto nueva abajo.</p>
+      <div id="sliderList"></div>
+      <div id="uploadRow">
+        <input type="file" id="uploadInput" accept="image/*" />
+        <button class="btn btn--primary btn--sm" id="uploadBtn" style="width:auto;">Subir foto</button>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div id="toast"></div>
+
+<script>
+var SUPABASE_URL = "https://hrecdyregmnbcmifjmva.supabase.co";
+var SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhyZWNkeXJlZ21uYmNtaWZqbXZhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcyNTcyMzQsImV4cCI6MjEwMjgzMzIzNH0.HQdhfanBdu3bc3MYF2S-fODHk3MK4J41K14Jvbe8nMo";
+var sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+var STATUS_LABEL = { disponible: "Disponible", reservado: "Reservado", no_disponible: "No disponible" };
+var allLots = [];
+var currentFilter = "todos";
+var currentSearch = "";
+
+function toast(msg) {
+  var el = document.getElementById("toast");
+  el.textContent = msg;
+  el.classList.add("is-visible");
+  clearTimeout(toast._t);
+  toast._t = setTimeout(function () { el.classList.remove("is-visible"); }, 2600);
+}
+
+function naturalCompare(a, b) {
+  var na = a.match(/\d+/), nb = b.match(/\d+/);
+  if (na && nb) return parseInt(na[0], 10) - parseInt(nb[0], 10);
+  return a.localeCompare(b);
+}
+
+/* ================= AUTH ================= */
+document.getElementById("loginForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+  var email = document.getElementById("loginEmail").value.trim();
+  var password = document.getElementById("loginPassword").value;
+  var btn = document.getElementById("loginBtn");
+  var errEl = document.getElementById("loginError");
+  errEl.style.display = "none";
+  btn.disabled = true;
+  btn.textContent = "Entrando…";
+  sb.auth.signInWithPassword({ email: email, password: password }).then(function (res) {
+    btn.disabled = false;
+    btn.textContent = "Iniciar sesión";
+    if (res.error) {
+      errEl.textContent = "No se pudo iniciar sesión: " + res.error.message;
+      errEl.style.display = "block";
+      return;
+    }
+    showApp();
+  });
+});
+
+document.getElementById("logoutBtn").addEventListener("click", function () {
+  sb.auth.signOut().then(function () { location.reload(); });
+});
+
+function showApp() {
+  document.getElementById("loginScreen").style.display = "none";
+  document.getElementById("appShell").style.display = "block";
+  loadLots();
+  loadSlider();
+}
+
+sb.auth.getSession().then(function (res) {
+  if (res.data && res.data.session) showApp();
+});
+
+/* ================= TABS ================= */
+document.querySelectorAll(".tab-btn").forEach(function (btn) {
+  btn.addEventListener("click", function () {
+    document.querySelectorAll(".tab-btn").forEach(function (b) { b.classList.remove("is-active"); });
+    document.querySelectorAll(".panel-section").forEach(function (s) { s.classList.remove("is-active"); });
+    btn.classList.add("is-active");
+    document.getElementById(btn.getAttribute("data-tab")).classList.add("is-active");
+  });
+});
+
+/* ================= LOTES ================= */
+function loadLots() {
+  sb.from("lots").select("*").then(function (res) {
+    if (res.error) { toast("Error al cargar lotes: " + res.error.message); return; }
+    allLots = res.data || [];
+    allLots.sort(function (a, b) { return naturalCompare(a.code, b.code); });
+    renderLots();
+  });
+}
+
+function renderLots() {
+  var list = document.getElementById("lotsList");
+  var q = currentSearch.trim().toLowerCase();
+  var filtered = allLots.filter(function (l) {
+    if (currentFilter !== "todos" && l.status !== currentFilter) return false;
+    if (q && l.code.toLowerCase().indexOf(q) === -1) return false;
+    return true;
+  });
+  document.getElementById("lotCountLabel").textContent = filtered.length + " de " + allLots.length + " lotes";
+  list.innerHTML = "";
+  filtered.forEach(function (lot) {
+    list.appendChild(buildLotCard(lot));
+  });
+}
+
+function buildLotCard(lot) {
+  var card = document.createElement("div");
+  card.className = "lot-card";
+  var metaBits = [];
+  if (lot.area) metaBits.push(Number(lot.area).toLocaleString("es-EC", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " m²");
+  if (lot.price) metaBits.push("$" + Number(lot.price).toLocaleString("es-EC", { maximumFractionDigits: 0 }));
+
+  card.innerHTML =
+    '<div class="lot-card__head">' +
+      '<span class="lot-card__code">' + lot.code + '</span>' +
+      '<span class="lot-card__meta">' + (metaBits.join(" · ") || "Sin área/precio") + '</span>' +
+      '<div class="status-pills">' +
+        ["disponible", "reservado", "no_disponible"].map(function (s) {
+          return '<button type="button" class="status-pill' + (lot.status === s ? " is-active" : "") + '" data-status="' + s + '">' + STATUS_LABEL[s] + '</button>';
+        }).join("") +
+      '</div>' +
+      '<span class="lot-card__toggle">▸</span>' +
+    '</div>' +
+    '<div class="lot-card__body">' +
+      '<div class="field"><label>Área (m²)</label><input type="number" step="0.01" class="f-area" value="' + (lot.area != null ? lot.area : "") + '" /></div>' +
+      '<div class="field"><label>Precio (USD)</label><input type="number" step="0.01" class="f-price" value="' + (lot.price != null ? lot.price : "") + '" /></div>' +
+      '<div class="field"><label>Posición mapa — X (0-100)</label><input type="number" step="0.01" class="f-cx" value="' + lot.cx + '" /></div>' +
+      '<div class="field"><label>Posición mapa — Y (0-100)</label><input type="number" step="0.01" class="f-cy" value="' + lot.cy + '" /></div>' +
+      '<div class="lot-card__actions">' +
+        '<button type="button" class="btn btn--danger btn--sm" data-action="delete">Eliminar lote</button>' +
+        '<button type="button" class="btn btn--primary btn--sm" data-action="save" style="width:auto;">Guardar cambios</button>' +
+      '</div>' +
+    '</div>';
+
+  card.querySelector(".lot-card__head").addEventListener("click", function (e) {
+    if (e.target.closest(".status-pill")) return;
+    card.classList.toggle("is-open");
+  });
+
+  card.querySelectorAll(".status-pill").forEach(function (pill) {
+    pill.addEventListener("click", function () {
+      var newStatus = pill.getAttribute("data-status");
+      if (newStatus === lot.status) return;
+      sb.from("lots").update({ status: newStatus }).eq("code", lot.code).then(function (res) {
+        if (res.error) { toast("Error: " + res.error.message); return; }
+        lot.status = newStatus;
+        card.querySelectorAll(".status-pill").forEach(function (p) {
+          p.classList.toggle("is-active", p.getAttribute("data-status") === newStatus);
+        });
+        toast(lot.code + " → " + STATUS_LABEL[newStatus]);
+        if (currentFilter !== "todos" && currentFilter !== newStatus) renderLots();
+      });
+    });
+  });
+
+  card.querySelector('[data-action="save"]').addEventListener("click", function () {
+    var area = card.querySelector(".f-area").value;
+    var price = card.querySelector(".f-price").value;
+    var cx = card.querySelector(".f-cx").value;
+    var cy = card.querySelector(".f-cy").value;
+    var payload = {
+      area: area === "" ? null : parseFloat(area),
+      price: price === "" ? null : parseFloat(price),
+      cx: parseFloat(cx),
+      cy: parseFloat(cy)
+    };
+    sb.from("lots").update(payload).eq("code", lot.code).then(function (res) {
+      if (res.error) { toast("Error: " + res.error.message); return; }
+      Object.assign(lot, payload);
+      toast(lot.code + " guardado");
+      renderLots();
+    });
+  });
+
+  card.querySelector('[data-action="delete"]').addEventListener("click", function () {
+    if (!confirm("¿Eliminar el lote " + lot.code + "? Esta acción no se puede deshacer.")) return;
+    sb.from("lots").delete().eq("code", lot.code).then(function (res) {
+      if (res.error) { toast("Error: " + res.error.message); return; }
+      allLots = allLots.filter(function (l) { return l.code !== lot.code; });
+      toast(lot.code + " eliminado");
+      renderLots();
+    });
+  });
+
+  return card;
+}
+
+document.getElementById("lotSearch").addEventListener("input", function (e) {
+  currentSearch = e.target.value;
+  renderLots();
+});
+
+document.querySelectorAll("#statusFilters .chip").forEach(function (chip) {
+  chip.addEventListener("click", function () {
+    document.querySelectorAll("#statusFilters .chip").forEach(function (c) { c.classList.remove("is-active"); });
+    chip.classList.add("is-active");
+    currentFilter = chip.getAttribute("data-filter");
+    renderLots();
+  });
+});
+
+document.getElementById("showAddLotBtn").addEventListener("click", function () {
+  document.getElementById("addLotForm").classList.add("is-open");
+});
+document.getElementById("cancelAddLot").addEventListener("click", function () {
+  document.getElementById("addLotForm").classList.remove("is-open");
+});
+
+document.getElementById("addLotForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+  var code = document.getElementById("newCode").value.trim();
+  if (!code) return;
+  if (allLots.some(function (l) { return l.code.toLowerCase() === code.toLowerCase(); })) {
+    toast("Ya existe un lote con ese código");
+    return;
+  }
+  var payload = {
+    code: code,
+    status: document.getElementById("newStatus").value,
+    area: document.getElementById("newArea").value === "" ? null : parseFloat(document.getElementById("newArea").value),
+    price: document.getElementById("newPrice").value === "" ? null : parseFloat(document.getElementById("newPrice").value),
+    cx: parseFloat(document.getElementById("newCx").value || 50),
+    cy: parseFloat(document.getElementById("newCy").value || 50)
+  };
+  sb.from("lots").insert(payload).then(function (res) {
+    if (res.error) { toast("Error: " + res.error.message); return; }
+    toast("Lote " + code + " creado. Como es nuevo, en el mapa aparece con un marcador simple (no tiene la forma exacta trazada del plano).");
+    document.getElementById("addLotForm").reset();
+    document.getElementById("addLotForm").classList.remove("is-open");
+    loadLots();
+  });
+});
+
+/* ================= SLIDER ================= */
+var sliderImages = [];
+
+function loadSlider() {
+  sb.from("slider_images").select("*").order("sort_order", { ascending: true }).then(function (res) {
+    if (res.error) { toast("Error al cargar fotos: " + res.error.message); return; }
+    sliderImages = res.data || [];
+    renderSlider();
+  });
+}
+
+function renderSlider() {
+  var list = document.getElementById("sliderList");
+  list.innerHTML = "";
+  sliderImages.forEach(function (img, i) {
+    var row = document.createElement("div");
+    row.className = "slide-card";
+    row.innerHTML =
+      '<img src="' + resolveImgSrc(img.src) + '" alt="" />' +
+      '<input type="text" class="f-alt" value="' + (img.alt || "").replace(/"/g, "&quot;") + '" placeholder="Descripción breve" />' +
+      '<div class="slide-card__actions">' +
+        '<button type="button" class="icon-btn" data-action="up" title="Mover arriba">↑</button>' +
+        '<button type="button" class="icon-btn" data-action="down" title="Mover abajo">↓</button>' +
+        '<button type="button" class="icon-btn" data-action="delete" title="Quitar">✕</button>' +
+      '</div>';
+
+    row.querySelector(".f-alt").addEventListener("change", function (e) {
+      sb.from("slider_images").update({ alt: e.target.value }).eq("id", img.id).then(function (res) {
+        if (res.error) { toast("Error: " + res.error.message); return; }
+        img.alt = e.target.value;
+        toast("Descripción guardada");
+      });
+    });
+
+    row.querySelector('[data-action="delete"]').addEventListener("click", function () {
+      if (!confirm("¿Quitar esta foto del slider?")) return;
+      sb.from("slider_images").delete().eq("id", img.id).then(function (res) {
+        if (res.error) { toast("Error: " + res.error.message); return; }
+        sliderImages.splice(i, 1);
+        toast("Foto quitada");
+        renderSlider();
+      });
+    });
+
+    row.querySelector('[data-action="up"]').addEventListener("click", function () {
+      if (i === 0) return;
+      swapOrder(i, i - 1);
+    });
+    row.querySelector('[data-action="down"]').addEventListener("click", function () {
+      if (i === sliderImages.length - 1) return;
+      swapOrder(i, i + 1);
+    });
+
+    list.appendChild(row);
+  });
+}
+
+function resolveImgSrc(src) {
+  // Compatibilidad con fotos antiguas guardadas como ruta relativa (img/x.jpg)
+  if (/^https?:\/\//.test(src)) return src;
+  return "../" + src;
+}
+
+function swapOrder(i, j) {
+  var a = sliderImages[i], b = sliderImages[j];
+  var tmp = a.sort_order;
+  Promise.all([
+    sb.from("slider_images").update({ sort_order: b.sort_order }).eq("id", a.id),
+    sb.from("slider_images").update({ sort_order: tmp }).eq("id", b.id)
+  ]).then(function (results) {
+    if (results[0].error || results[1].error) { toast("Error al reordenar"); return; }
+    var t = a.sort_order; a.sort_order = b.sort_order; b.sort_order = t;
+    sliderImages.sort(function (x, y) { return x.sort_order - y.sort_order; });
+    renderSlider();
+  });
+}
+
+document.getElementById("uploadBtn").addEventListener("click", function () {
+  var input = document.getElementById("uploadInput");
+  var file = input.files[0];
+  if (!file) { toast("Elige una foto primero"); return; }
+  var path = "slider/" + Date.now() + "-" + file.name.replace(/[^a-zA-Z0-9.\-_]/g, "_");
+  var btn = document.getElementById("uploadBtn");
+  btn.disabled = true;
+  btn.textContent = "Subiendo…";
+  sb.storage.from("site-images").upload(path, file).then(function (res) {
+    btn.disabled = false;
+    btn.textContent = "Subir foto";
+    if (res.error) { toast("Error al subir: " + res.error.message); return; }
+    var pub = sb.storage.from("site-images").getPublicUrl(path);
+    var publicUrl = pub.data.publicUrl;
+    var nextOrder = sliderImages.length ? Math.max.apply(null, sliderImages.map(function (s) { return s.sort_order; })) + 1 : 0;
+    sb.from("slider_images").insert({ src: publicUrl, alt: "", sort_order: nextOrder }).then(function (res2) {
+      if (res2.error) { toast("Error al guardar: " + res2.error.message); return; }
+      toast("Foto agregada al slider");
+      input.value = "";
+      loadSlider();
+    });
+  });
+});
+</script>
+</body>
+</html>
