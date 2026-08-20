@@ -71,6 +71,43 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   observeReveal();
 
+  /* ---------- Slider automático (sección Ubicación) ----------
+     Las imágenes se cargan desde data/slider.json, editable desde el panel
+     /admin (agregar, quitar o reemplazar fotos sin tocar código). Si por
+     algún motivo no se puede cargar ese archivo, se usan las imágenes que
+     ya vienen escritas en el HTML como respaldo. */
+  function startLocationSlider() {
+    var locationSlider = document.getElementById("locationSlider");
+    if (!locationSlider) return;
+    var slides = Array.prototype.slice.call(locationSlider.querySelectorAll("img"));
+    var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (slides.length > 1 && !reduceMotion) {
+      var currentSlide = 0;
+      setInterval(function () {
+        slides[currentSlide].classList.remove("is-active");
+        currentSlide = (currentSlide + 1) % slides.length;
+        slides[currentSlide].classList.add("is-active");
+      }, 4000);
+    }
+  }
+
+  var locationSliderEl = document.getElementById("locationSlider");
+  if (locationSliderEl) {
+    fetch("data/slider.json")
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        var images = data.images || [];
+        if (!images.length) return; // deja el respaldo del HTML
+        locationSliderEl.innerHTML = images.map(function (img, i) {
+          return '<img src="' + img.src + '" alt="' + (img.alt || "") + '"' + (i === 0 ? ' class="is-active"' : "") + " />";
+        }).join("");
+      })
+      .catch(function (err) {
+        console.error("No se pudo cargar data/slider.json, se usan las fotos de respaldo:", err);
+      })
+      .then(startLocationSlider);
+  }
+
   /* =========================================================================
      MAPA INTERACTIVO + TABLA DE LOTES — ambos se construyen a partir de un
      único archivo de datos (data/lots.json) para que sea lo único que hay
@@ -233,9 +270,12 @@ document.addEventListener("DOMContentLoaded", function () {
         return Object.assign({}, lot, { points: shapes[lot.code] || null });
       });
       lots.sort(function (a, b) { return naturalCompare(a.code, b.code); });
+      // El mapa muestra los 3 estados (disponible/reservado/no disponible).
+      // La tabla de la sección "Lotes disponibles" solo lista los disponibles.
+      var disponibles = lots.filter(function (l) { return l.status === "disponible"; });
       buildInteractiveMap(lots);
-      buildLotesTable(lots);
-      updateLotesCount(lots);
+      buildLotesTable(disponibles);
+      updateLotesCount(disponibles);
     }).catch(function (err) {
       console.error("No se pudo cargar la disponibilidad de lotes:", err);
       if (lotesCountEl) lotesCountEl.textContent = "No se pudo cargar la disponibilidad en este momento.";

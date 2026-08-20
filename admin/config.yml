@@ -31,3 +31,18 @@ collections:
               - { name: "price", label: "Precio (USD)", widget: "number", value_type: "float", required: false, hint: "Déjalo vacío si no aplica." }
               - { name: "cx", label: "Posición en el mapa — horizontal (0 a 100)", widget: "number", value_type: "float", hint: "0 = borde izquierdo del mapa, 100 = borde derecho. Para un lote nuevo, prueba un valor y revisa cómo se ve en el sitio." }
               - { name: "cy", label: "Posición en el mapa — vertical (0 a 100)", widget: "number", value_type: "float", hint: "0 = arriba del mapa, 100 = abajo." }
+
+  - name: "contenido"
+    label: "Contenido del sitio"
+    files:
+      - name: "slider"
+        label: "Slider de fotos — sección Ubicación"
+        file: "data/slider.json"
+        fields:
+          - name: "images"
+            label: "Fotos del slider"
+            widget: "list"
+            summary: "{{fields.alt}}"
+            fields:
+              - { name: "src", label: "Foto", widget: "image", hint: "Puedes elegir una foto ya subida o subir una nueva." }
+              - { name: "alt", label: "Descripción breve (para accesibilidad y buscadores)", widget: "string", required: false }
